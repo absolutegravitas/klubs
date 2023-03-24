@@ -1,7 +1,7 @@
 import { Logo } from '@/components/atoms/Icons'
 import { Container } from '@/components/molecules'
 import { NavLink } from '@/components/atoms'
-import Image from 'next/future/image'
+import Image from 'next/image'
 
 export default function Footer({ data }: any) {
   // console.log('Footer: ', data)

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import ReactPlayer from 'react-player'
 
 const VideoLibrary = ({ data }: any) => {

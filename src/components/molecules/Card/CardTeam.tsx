@@ -1,4 +1,4 @@
-import Image from 'next/future/image'
+import Image from 'next/image'
 import { SwrBrand } from '@/lib/swr-helpers'
 
 export default function CardTeam({ data, colors }: any) {

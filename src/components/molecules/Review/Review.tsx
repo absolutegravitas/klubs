@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic'
-import Image from 'next/future/image'
+import Image from 'next/image'
 
 const ProseGeneral = dynamic(
   () => import('@/components/molecules/Prose/ProseGeneral')

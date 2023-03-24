@@ -12,7 +12,7 @@ import { getURL } from '@/lib/api-helpers'
 import cn from 'clsx'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import Link from 'next/link'
 
 import {

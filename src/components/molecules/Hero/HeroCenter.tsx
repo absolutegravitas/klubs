@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import { ProseHero } from '@/components/molecules'
 const Button = dynamic(() => import('@/components/atoms/Button/ButtonHero'))
 

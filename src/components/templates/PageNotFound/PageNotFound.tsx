@@ -1,4 +1,4 @@
-import Image from 'next/future/image'
+import Image from 'next/image'
 import Link from 'next/link'
 import { Logo } from '@/components/atoms/Icons'
 import { SwrBrand } from '@/lib/swr-helpers'

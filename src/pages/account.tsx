@@ -1,7 +1,7 @@
 // generic
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import { SwrBrand } from '@/lib/swr-helpers'
 import Link from 'next/link'
 import cn from 'clsx'

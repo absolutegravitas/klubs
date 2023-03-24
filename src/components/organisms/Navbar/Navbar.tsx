@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image from 'next/future/image'
+import Image from 'next/image'
 
 import { Container, AccountButton, SignOutButton } from '@/components/molecules'
 import { Logo } from '@/components/atoms/Icons'

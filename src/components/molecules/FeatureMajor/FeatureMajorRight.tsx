@@ -1,7 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import { ProseGeneral, ProseHeading } from '@/components/molecules'
 const Button = dynamic(() => import('@/components/atoms/Button/ButtonGeneral'))
 
