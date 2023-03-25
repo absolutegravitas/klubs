@@ -63,7 +63,7 @@ export default function Navbar({ data }: any) {
             <div className="-mr-1 md:hidden">
               <MobileNavigation data={data} />
             </div>
-            {!user && (
+            {/* {!user && (
               <div className="hidden md:ml-6 md:flex md:space-x-8">
                 <SignInButton data={data} />
               </div>
@@ -75,7 +75,7 @@ export default function Navbar({ data }: any) {
                   <SignOutButton data={data} />
                 </div>
               </>
-            )}
+            )} */}
           </div>
         </nav>
       </Container>
