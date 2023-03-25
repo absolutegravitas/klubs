@@ -11,7 +11,7 @@ export function ExtraContentLinks({ link }: any) {
       }
       prefetch={false}
     >
-      <a target="_blank" rel="noopener noreferrer">
+      {/* <a target="_blank" rel="noopener noreferrer"> */}
         {/* <dt className="font-medium text-gray-900">{link.item.name}</dt>
         <dd className="mt-2 text-sm text-gray-500">{link.item.description}</dd>
         <dd className="mt-2 text-sm text-gray-500">
@@ -43,7 +43,7 @@ export function ExtraContentLinks({ link }: any) {
             
           </div>
         </dt>
-      </a>
+      {/* </a> */}
     </Link>
   )
 }

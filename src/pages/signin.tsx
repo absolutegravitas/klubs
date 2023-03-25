@@ -297,7 +297,7 @@ export default function Login() {
                           href="/account/signup"
                           passHref
                         >
-                          <a>Dont have an account? Click here to sign up.</a>
+                          Dont have an account? Click here to sign up.
                         </Link>
                       </div>
                     </div>

@@ -11,12 +11,9 @@ export default function PageNotFound({ statusCode }: any) {
       <div className="flex flex-col min-h-full pt-16 pb-12 bg-white">
         <main className="flex flex-col justify-center flex-grow w-full px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex justify-center flex-shrink-0">
-            <Link href="/">
-              <a className="inline-flex">
+            <Link href="/"className="inline-flex">
                 <span className="sr-only">Workflow</span>
                 <Logo />
-              
-              </a>
             </Link>
           </div>
           <div className="py-16 font-display">
@@ -36,17 +33,14 @@ export default function PageNotFound({ statusCode }: any) {
                 Sorry, we couldn’t find the page you’re looking for.
               </p>
               <div className="mt-6">
-                <Link href="/">
-                  <a
-                    style={{
-                      color: brand?.accentColor
-                        ? brand?.accentColor
-                        : '#1D4ED8',
-                    }}
-                    className="text-base font-medium hover:text-gray-500"
-                  >
-                    Go back home<span aria-hidden="true"> &rarr;</span>
-                  </a>
+                <Link
+                  href="/"
+                  style={{
+                    color: brand?.accentColor ? brand?.accentColor : '#1D4ED8',
+                  }}
+                  className="text-base font-medium hover:text-gray-500"
+                >
+                  Go back home<span aria-hidden="true"> &rarr;</span>
                 </Link>
               </div>
             </div>

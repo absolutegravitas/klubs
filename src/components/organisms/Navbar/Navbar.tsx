@@ -20,35 +20,37 @@ export default function Navbar({ data }: any) {
       <Container>
         <nav className="relative z-50 flex justify-between">
           <div className="flex items-center md:gap-x-12">
-            <Link href="/" aria-label="Home">
-              <a className="flex items-center flex-initial font-bold md:mr-24">
-                <span className="flex items-center mr-2">
-                  {data.lightLogo ? (
-                    <>
-                      <span className="align-middle">
-                        <Image
-                          className="w-auto h-10 mr-2"
-                          src={`${process.env.NEXT_PUBLIC_ASSETS_URL}/${data?.darkLogo}`}
-                          // layout="fill"
-                          width={500}
-                          height={500}
-                          alt={data?.name || 'Company Name'}
-                          // priority
-                        />
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <span className="flex w-auto h-10">
-                        <Logo />
-                      </span>
-                    </>
-                  )}
-                </span>
-                <span className="font-semibold prose align-middle font-display">
-                  {data.name ? data.name : 'Company Name'}
-                </span>
-              </a>
+            <Link
+              href="/"
+              aria-label="Home"
+              className="flex items-center flex-initial font-bold md:mr-24"
+            >
+              <span className="flex items-center mr-2">
+                {data.lightLogo ? (
+                  <>
+                    <span className="align-middle">
+                      <Image
+                        className="w-auto h-10 mr-2"
+                        src={`${process.env.NEXT_PUBLIC_ASSETS_URL}/${data?.darkLogo}`}
+                        // layout="fill"
+                        width={500}
+                        height={500}
+                        alt={data?.name || 'Company Name'}
+                        // priority
+                      />
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span className="flex w-auto h-10">
+                      <Logo />
+                    </span>
+                  </>
+                )}
+              </span>
+              <span className="font-semibold prose align-middle font-display">
+                {data.name ? data.name : 'Company Name'}
+              </span>
             </Link>
             <div className="hidden md:flex md:gap-x-6 ">
               {data.header && <NavItems data={data.header} />}

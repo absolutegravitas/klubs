@@ -19,8 +19,8 @@ export default function CardProduct({ data, colors }: any) {
               className=""
               passHref
             >
-              <>
-                <div className="relative w-full overflow-hidden bg-white rounded-xs h-80 group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-1 sm:h-64 lg:aspect-w-1 lg:aspect-h-1">
+              <span>
+                <div className="relative w-full overflow-hidden bg-white rounded-xs h-80 sm:aspect-w-2 sm:aspect-h-1 lg:aspect-w-1 lg:aspect-h-1 group-hover:opacity-75 sm:h-64">
                   {data.image && data.image !== '' ? (
                     <Image
                       className="object-cover object-center w-full h-full"
@@ -55,8 +55,8 @@ export default function CardProduct({ data, colors }: any) {
                 <p className="prose text-left text-gray-800 prose-base">
                   {data.description}
                 </p>
-                  <Button item={data} collection={'Products'} />
-              </>
+                <Button item={data} collection={'Products'} />
+              </span>
             </Link>
           </div>
         </>

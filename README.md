@@ -13,9 +13,6 @@ focus:border-tennisorange
 
 $1 is the variable from the search in brackets (.*) - use more if search text is in the middle
 
-## ⚠️ TO DO PILE
-DONE: <a> tags with <Link> next/link
-DONE: <img> tags with <Image> next/image
 DONE: Multiple styles for Hero
 
 DONE: Payment and checkout pages

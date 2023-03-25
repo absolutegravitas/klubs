@@ -8,8 +8,9 @@ export function ExtraContentFiles({ link }: any) {
       className="px-6 py-2 text-center rounded-md cursor-pointer "
       href={`${process.env.NEXT_PUBLIC_ASSETS_URL}/${link.item.id}?download`}
       prefetch={false}
+      download={link.item.title}
     >
-      <a download={link.item.title}>
+      {/* <a download={link.item.title}> */}
         {/* <dt className="font-medium text-gray-900">{link.item.title}</dt>
 
         <dd className="mt-2 text-sm text-gray-500">
@@ -29,19 +30,19 @@ export function ExtraContentFiles({ link }: any) {
               <p className="py-2 text-sm font-medium text-gray-900">
                 {link.item.title}
               </p>
-              <div className="inline-flex items-center rounded-xs border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium leading-5 text-gray-700 shadow-sm hover:bg-gray-50">
-            <span className="align-text-bottom material-symbols-outlined">
-                file_download
-              </span> Download
-            </div>
+              <div className="rounded-xs inline-flex items-center border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium leading-5 text-gray-700 shadow-sm hover:bg-gray-50">
+                <span className="align-text-bottom material-symbols-outlined">
+                  file_download
+                </span>{' '}
+                Download
+              </div>
               {/* <p className="text-sm text-gray-500 truncate">
               {'@' + person.handle}
             </p> */}
             </div>
-           
           </div>
         </dt>
-      </a>
+      {/* </a> */}
     </Link>
   )
 }

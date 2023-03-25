@@ -16,7 +16,6 @@ export function CourseHeader({ data, setModule }: any) {
                   href="/account"
                   prefetch={false}
                 >
-                  <a>
                     <span
                       className="flex-shrink-0 w-5 h-5 material-symbols-outlined"
                       aria-hidden="true"
@@ -25,7 +24,6 @@ export function CourseHeader({ data, setModule }: any) {
                     </span>
 
                     <span className="sr-only">Home</span>
-                  </a>
                 </Link>
               </div>
             </li>

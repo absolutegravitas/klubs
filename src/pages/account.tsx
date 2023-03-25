@@ -202,7 +202,7 @@ export default function Account() {
               <div className="grid grid-cols-1 mt-6 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                 {purchases.map((product) => (
                   <div key={product.id} className="relative group">
-                    <div className="w-full overflow-hidden bg-gray-200 rounded-xs min-h-80 aspect-w-1 aspect-h-1 group-hover:opacity-75 lg:aspect-none lg:h-80">
+                    <div className="w-full overflow-hidden bg-gray-200 rounded-xs min-h-80 aspect-w-1 aspect-h-1 lg:aspect-none group-hover:opacity-75 lg:h-80">
                       {product.image && product.image !== '' ? (
                         <Image
                           className="object-cover object-center w-full h-full"
@@ -242,22 +242,22 @@ export default function Account() {
                               Please wait...
                             </>
                           )}
-                          <Link passHref href={
+                          <Link
+                            passHref
+                            href={
                               '/' +
                               product.type +
                               's/' +
                               product.slug +
                               (product.type === 'course' ? '/content' : '')
-                            }>
-                          <a
-                            
+                            }
                           >
                             <span
                               aria-hidden="true"
                               className="absolute inset-0 "
                             />
                             {product.name}
-                          </a></Link>
+                          </Link>
                         </h3>
                       </div>
                     </div>
