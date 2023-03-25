@@ -1,9 +1,9 @@
 import { stripe } from '@/lib/stripe'
-import {
-  upsertProductRecord,
-  upsertPriceRecord,
-  managePurchases,
-} from '@/lib/supabase-admin'
+// import {
+//   upsertProductRecord,
+//   upsertPriceRecord,
+//   managePurchases,
+// } from '@/lib/supabase-admin'
 import { NextApiRequest, NextApiResponse } from 'next'
 import Stripe from 'stripe'
 import { Readable } from 'node:stream'
@@ -56,34 +56,34 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         switch (event.type) {
           case 'product.created':
           case 'product.updated':
-            await upsertProductRecord(event.data.object as Stripe.Product)
+            // await upsertProductRecord(event.data.object as Stripe.Product)
             break
           case 'price.created':
           case 'price.updated':
-            await upsertPriceRecord(event.data.object as Stripe.Price)
+            // await upsertPriceRecord(event.data.object as Stripe.Price)
             break
           case 'customer.subscription.created':
           case 'customer.subscription.updated':
           case 'customer.subscription.deleted':
             const subscription = event.data.object as Stripe.Subscription
-            await managePurchases(
-              // event.data.object
-              subscription.id,
-              subscription.customer as string,
-            )
+            // await managePurchases(
+            //   // event.data.object
+            //   subscription.id,
+            //   subscription.customer as string,
+            // )
             break
           case 'checkout.session.completed':
             const checkoutSession = event.data.object as Stripe.Checkout.Session
 
-            await managePurchases(
-              // event.data.object as Stripe.Checkout.Session,
-              checkoutSession.mode === 'subscription'
-                ? (checkoutSession.subscription as string)
-                : checkoutSession.payment_intent,
-              checkoutSession.customer as string,
-              checkoutSession.metadata,
-              checkoutSession.mode as string
-            )
+            // await managePurchases(
+            //   // event.data.object as Stripe.Checkout.Session,
+            //   checkoutSession.mode === 'subscription'
+            //     ? (checkoutSession.subscription as string)
+            //     : checkoutSession.payment_intent,
+            //   checkoutSession.customer as string,
+            //   checkoutSession.metadata,
+            //   checkoutSession.mode as string
+            // )
 
             break
           default:
