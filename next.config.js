@@ -9,6 +9,7 @@ module.exports = withBundleAnalyzer({
   swcMinify: true,
   experimental: {
     nextScriptWorkers: true,
+    newNextLinkBehavior: false,
     // images: { allowFutureImage: true },
   },
   images: {
