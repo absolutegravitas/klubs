@@ -250,7 +250,7 @@ export default function LoginForm({ redirect }: any) {
                         href="/account/signup"
                         passHref
                       >
-                        Dont have an account? Click here to sign up.
+                        {`Dont have an account? Click here to sign up.`}
                       </Link>
                     </div>
                   </div>

@@ -11,7 +11,7 @@ export default function Card({
 }: any) {
   return (
     <Link href="/product/[permalink]" as={`/product/${permalink}`}className="mb-5 cursor-pointer d-block font-color-black">
-        <div
+        <span><div
           className="mb-3"
           style={{
             paddingBottom: '125%',
@@ -22,7 +22,7 @@ export default function Card({
         <p className="mb-2 font-color-medium">{description}</p>
         <p className="pb-2 font-size-subheader font-weight-medium borderbottom border-color-black">
           {price}
-        </p>
+        </p></span>
     </Link>
   )
 }

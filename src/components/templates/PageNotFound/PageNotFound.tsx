@@ -12,8 +12,8 @@ export default function PageNotFound({ statusCode }: any) {
         <main className="flex flex-col justify-center flex-grow w-full px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex justify-center flex-shrink-0">
             <Link href="/"className="inline-flex">
-                <span className="sr-only">Workflow</span>
-                <Logo />
+            <span><span className="sr-only">Workflow</span>
+                <Logo /></span>
             </Link>
           </div>
           <div className="py-16 font-display">
@@ -40,7 +40,7 @@ export default function PageNotFound({ statusCode }: any) {
                   }}
                   className="text-base font-medium hover:text-gray-500"
                 >
-                  Go back home<span aria-hidden="true"> &rarr;</span>
+                  <span>Go back home<span aria-hidden="true"> &rarr;</span></span>
                 </Link>
               </div>
             </div>

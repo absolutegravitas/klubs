@@ -15,7 +15,7 @@ export function CourseHeader({ data, setModule }: any) {
                   passHref
                   href="/account"
                   prefetch={false}
-                >
+                ><span>
                     <span
                       className="flex-shrink-0 w-5 h-5 material-symbols-outlined"
                       aria-hidden="true"
@@ -23,7 +23,7 @@ export function CourseHeader({ data, setModule }: any) {
                       cottage
                     </span>
 
-                    <span className="sr-only">Home</span>
+                    <span className="sr-only">Home</span></span>
                 </Link>
               </div>
             </li>

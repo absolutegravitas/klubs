@@ -4,7 +4,7 @@ import { NavLink } from '@/components/atoms'
 import Image from 'next/image'
 
 export default function Footer({ data }: any) {
-  // console.log('Footer: ', data)
+  console.log('Footer: ', data)
 
   return (
     <>

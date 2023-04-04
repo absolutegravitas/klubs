@@ -252,11 +252,11 @@ export default function Account() {
                               (product.type === 'course' ? '/content' : '')
                             }
                           >
-                            <span
+                            <span><span
                               aria-hidden="true"
                               className="absolute inset-0 "
                             />
-                            {product.name}
+                            {product.name}</span>
                           </Link>
                         </h3>
                       </div>
