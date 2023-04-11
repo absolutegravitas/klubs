@@ -56,14 +56,14 @@ export default function Login() {
     setLoading(false)
   }
 
-  const handleOAuthSignIn = async (provider: Provider) => {
-    setLoading(true)
-    const { error } = await supabaseClient.auth.signIn({ provider })
-    if (error) {
-      setMessage({ type: 'error', content: error.message })
-    }
-    setLoading(false)
-  }
+  // const handleOAuthSignIn = async (provider: Provider) => {
+  //   setLoading(true)
+  //   const { error } = await supabaseClient.auth.signIn({ provider })
+  //   if (error) {
+  //     setMessage({ type: 'error', content: error.message })
+  //   }
+  //   setLoading(false)
+  // }
 
   useEffect(() => {
     if (user) {

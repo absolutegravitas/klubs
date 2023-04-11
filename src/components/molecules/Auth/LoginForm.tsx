@@ -60,19 +60,19 @@ export default function LoginForm({ redirect }: any) {
     setLoading(false)
   }
 
-  const handleOAuthSignIn = async (provider: Provider) => {
-    setLoading(true)
-    const { error } = await supabaseClient.auth.signIn({ provider })
-    if (error) {
-      setMessage({ type: 'error', content: error.message })
-    }
+  // const handleOAuthSignIn = async (provider: Provider) => {
+  //   setLoading(true)
+  //   const { error } = await supabaseClient.auth.signIn({ provider })
+  //   if (error) {
+  //     setMessage({ type: 'error', content: error.message })
+  //   }
 
-    if (user) {
-      // console.log('user (on course/services page)->', user)
-      router.reload()
-    }
-    setLoading(false)
-  }
+  //   if (user) {
+  //     // console.log('user (on course/services page)->', user)
+  //     router.reload()
+  //   }
+  //   setLoading(false)
+  // }
 
   return (
     <AuthLayout>
@@ -147,6 +147,7 @@ export default function LoginForm({ redirect }: any) {
                   <div>
                     <button
                       style={{
+                        color: '#fff',
                         backgroundColor: brand?.accentColor
                           ? brand?.accentColor
                           : '#1D4ED8',
@@ -185,7 +186,7 @@ export default function LoginForm({ redirect }: any) {
                 </div>
 
                 {/* Social OAuth */}
-                <div className="hidden">
+                {/* <div className="hidden">
                   <div className="mt-6">
                     <div className="relative">
                       <div className="absolute inset-0 flex items-center">
@@ -254,7 +255,7 @@ export default function LoginForm({ redirect }: any) {
                       </Link>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

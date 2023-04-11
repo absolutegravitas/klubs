@@ -1,3 +1,4 @@
+import { UUID } from 'node:crypto'
 import Stripe from 'stripe'
 
 export interface Customer {
@@ -7,32 +8,43 @@ export interface Customer {
 
 export interface UserDetails {
   id: string /* primary key */
-  first_name: string
-  last_name: string
-  full_name?: string
+  first_name?: string
+  last_name?: string
+  email: string
+  password?: string
+  location?: string
+  title?: string
+  description?: string
+  tags?: JSON
+  avatar?: UUID
+  role?: UUID
+  // language
+  // theme
+  // tfa_secret
+  // status
   avatar_url?: string
   billing_address?: Stripe.Address
   payment_method?: Stripe.PaymentMethod[Stripe.PaymentMethod.Type]
 }
 
-export interface Purchase {
-  id: string /* primary key */ // subscription id or payment intent from stripe
-  status: string
-  user_id: string
-  mode: string //Stripe.Checkout.Session.Mode
-  // price_id?: string /* foreign key to prices.id */
-  // prices?: Price
+// export interface Purchase {
+//   id: string /* primary key */ // subscription id or payment intent from stripe
+//   status: string
+//   user_id: string
+//   mode: string //Stripe.Checkout.Session.Mode
+//   // price_id?: string /* foreign key to prices.id */
+//   // prices?: Price
 
-  created?: Date | null;
-  current_period_start?: Date | null;
-  current_period_end?: Date | null;
-  ended_at?: Date | null;
-  cancel_at?: Date | null;
-  canceled_at?: Date | null;
-  cancel_at_period_end?: boolean;
+//   created?: Date | null;
+//   current_period_start?: Date | null;
+//   current_period_end?: Date | null;
+//   ended_at?: Date | null;
+//   cancel_at?: Date | null;
+//   canceled_at?: Date | null;
+//   cancel_at_period_end?: boolean;
 
-  metadata?: Stripe.Metadata
-}
+//   metadata?: Stripe.Metadata
+// }
 
 export interface Product {
   id: string /* primary key */

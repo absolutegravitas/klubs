@@ -297,7 +297,7 @@ export async function getSection(params: any) {
         )
       ).json()
       section = section.data[0].item
-      console.log('here pricing section', section)
+      // console.log('here pricing section', section)
 
       let { data: stripePrices } = await (
         await fetch(
