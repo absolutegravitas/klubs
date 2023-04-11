@@ -16,15 +16,17 @@ export default function Content({ slug, preview, prefetchedData }: any) {
 
   const router = useRouter()
   const [module, setModule]: any = useState()
-  const { isLoading, user, purchases } = useUser()
+  const { isLoading, user, 
+  //  purchases
+   } = useUser()
   let purchased = false
 
   if (!isLoading && user) {
-    purchases?.map((purchase: any) => {
-      // console.log(purchase)
-      if (purchase.slug === slug) purchased = true
-      // console.log('purchased ->', purchased)
-    })
+    // purchases?.map((purchase: any) => {
+    //   // console.log(purchase)
+    //   if (purchase.slug === slug) purchased = true
+    //   // console.log('purchased ->', purchased)
+    // })
   }
 
   if (isLoading) return <Loading />

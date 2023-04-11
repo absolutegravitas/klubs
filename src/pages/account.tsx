@@ -27,17 +27,19 @@ export const getServerSideProps = withPageAuth({
 export default function Account() {
   const brand: any = SwrBrand()
   const [loading, setLoading] = useState(false)
-  const { isLoading, user, purchases } = useUser()
+  const { isLoading, user, 
+    // purchases 
+  } = useUser()
   const [gotoContent, setGotoContent] = useState(false)
 
   let showcases: any[] = []
-  if (!isLoading && user) {
-    purchases?.map((purchase: any) => {
-      purchase.showcases?.map((showcase: any) => {
-        showcases.push(...showcases, showcase.id)
-      })
-    })
-  }
+  // if (!isLoading && user) {
+  //   purchases?.map((purchase: any) => {
+  //     purchase.showcases?.map((showcase: any) => {
+  //       showcases.push(...showcases, showcase.id)
+  //     })
+  //   })
+  // }
 
   showcases = [...new Set(showcases)]
 
@@ -56,7 +58,7 @@ export default function Account() {
   }
   return (
     <>
-      {purchases && (
+      {/* {purchases && (
         <div className="px-4 mx-auto max-w-7xl font-display sm:px-6 lg:px-8">
           <div className="max-w-3xl py-8 mx-auto text-center lg:max-w-none">
             <ProseHeading content={'Your Account'} />
@@ -113,86 +115,7 @@ export default function Account() {
               </form>
             </div>
           </div>
-          {/* <div className="mt-8 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
-            {purchases?.map((item: any) => (
-              <div key={item.id} className="relative pb-5 ">
-                <>
-                  <div className="relative w-full overflow-hidden bg-white rounded-xs h-80 sm:aspect-w-2 sm:aspect-h-1 sm:h-64 lg:aspect-w-1 lg:aspect-h-1">
-                    {item.image && item.image !== '' ? (
-                      <Image
-                        className="object-cover object-center w-full h-full"
-                        src={`${process.env.NEXT_PUBLIC_ASSETS_URL}/${item?.image}`}
-                        // layout="responsive"
-                        width={800}
-                        height={800}
-                        alt={item?.name || ''}
-                      />
-                    ) : (
-                      <Image
-                        className="object-cover object-center w-full h-full"
-                        src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1153"
-                        // layout="responsive"
-                        width={800}
-                        height={800}
-                        alt=""
-                      />
-                    )}
-                  </div>
-                  <h3 className="mt-6 font-extrabold text-left">
-                    <span
-                      style={{
-                        color: brand?.accentColor
-                          ? brand?.accentColor
-                          : '#1D4ED8',
-                      }}
-                      className="absolute inset-0"
-                    />
-                    {item.name}
-                  </h3>
-                  <p className="prose text-left text-gray-800 prose-base">
-                    {item.description}
-                  </p>
-
-                  {item.type === 'course' && (
-                    <div className="py-3 mt-3 sm:mt-0 sm:flex-shrink-0">
-                      <a
-                        href={'/' + item.type + 's/' + item.slug}
-                        // style={{
-                        //   backgroundColor: brand?.accentColor
-                        //     ? brand?.accentColor
-                        //     : '#1D4ED8',
-                        // }}
-                        className={cn(
-                          gotoContent ? `bg-gray-500 opacity-50` : ``,
-                          'shadow-xs rounded-xs border-1 flex w-full cursor-pointer justify-center border px-4  py-2 text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2'
-                        )}
-
-                        // className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-white border border-transparent shadow-xs rounded-xs hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-                      >
-                        {!gotoContent && (
-                          <>
-                            <span className="w-auto mr-3 align-middle material-symbols-outlined h-15">
-                              arrow_forward
-                            </span>
-                            {item.name}
-                          </>
-                        )}
-
-                        {gotoContent && (
-                          <>
-                            <span className="w-auto mr-3 align-middle material-symbols-outlined h-15 animate-spin">
-                              autorenew
-                            </span>
-                            Please wait...
-                          </>
-                        )}
-                      </a>
-                    </div>
-                  )}
-                </>
-              </div>
-            ))}
-          </div> */}
+          
           <div className="bg-white">
             <div className="max-w-2xl px-4 py-16 mx-auto sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
               <h2 className="text-2xl font-bold tracking-tight text-gray-900">
@@ -267,7 +190,7 @@ export default function Account() {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       {showcases && (
         <>

@@ -16,7 +16,9 @@ export default function Prices({ data, colors }: any) {
   const router = useRouter()
 
   const brand: any = SwrBrand()
-  const { user, isLoading, purchases } = useUser()
+  const { user, isLoading, 
+  //  purchases 
+  } = useUser()
   const [loginPrompt, setLoginPrompt] = useState(false)
   const [alreadyBought, setAlreadyBought] = useState(false)
   const [initiateCheckout, setInitiateCheckout] = useState(false)
@@ -34,15 +36,15 @@ export default function Prices({ data, colors }: any) {
     console.log('user logged in: ', user)
 
     console.log('checking if already bought...')
-    if (purchases && purchases.length > 0) {
-      const alreadyBought = purchases.find(
-        (purchase: any) => purchase.metadata.productId === price.product
-      )
-      if (alreadyBought) {
-        console.log('already bought!')
-        return setAlreadyBought(true)
-      }
-    }
+    // if (purchases && purchases.length > 0) {
+    //   const alreadyBought = purchases.find(
+    //     (purchase: any) => purchase.metadata.productId === price.product
+    //   )
+    //   if (alreadyBought) {
+    //     console.log('already bought!')
+    //     return setAlreadyBought(true)
+    //   }
+    // }
 
     // no purchase, initiate checkout
     console.log('initiating checkout...')
