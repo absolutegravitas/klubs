@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 
 const Layout = dynamic(() => import('@/components/templates/Default/Layout'))
 export default function Course({ slug, preview, prefetchedData }: any) {
-  // console.log('prefetchedData->', prefetchedData)
+  console.log('prefetchedData->', prefetchedData)
   const router = useRouter()
   if (!prefetchedData) {
     router.push('/404')
@@ -29,8 +29,8 @@ Course.Layout = Layout
 // context contains route params for dynamic routes, preview, previewData, locale,locales, defaultLocale
 export async function getStaticProps(context: any) {
   const data = await getProduct(context.params.slug)
-  // console.log('server product data->', data)
-  // console.log('server params->', context.params)
+  console.log('server product data->', data)
+  console.log('server params->', context.params)
 
   // return props with data to component
   return {

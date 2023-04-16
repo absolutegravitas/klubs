@@ -16,9 +16,7 @@ export default function Prices({ data, colors }: any) {
   const router = useRouter()
 
   const brand: any = SwrBrand()
-  const { user, isLoading, 
-  //  purchases 
-  } = useUser()
+  const { user, isLoading, purchases } = useUser()
   const [loginPrompt, setLoginPrompt] = useState(false)
   const [alreadyBought, setAlreadyBought] = useState(false)
   const [initiateCheckout, setInitiateCheckout] = useState(false)
@@ -36,15 +34,15 @@ export default function Prices({ data, colors }: any) {
     console.log('user logged in: ', user)
 
     console.log('checking if already bought...')
-    // if (purchases && purchases.length > 0) {
-    //   const alreadyBought = purchases.find(
-    //     (purchase: any) => purchase.metadata.productId === price.product
-    //   )
-    //   if (alreadyBought) {
-    //     console.log('already bought!')
-    //     return setAlreadyBought(true)
-    //   }
-    // }
+    if (purchases && purchases.length > 0) {
+      const alreadyBought = purchases.find(
+        (purchase: any) => purchase.metadata.productId === price.product
+      )
+      if (alreadyBought) {
+        console.log('already bought!')
+        return setAlreadyBought(true)
+      }
+    }
 
     // no purchase, initiate checkout
     console.log('initiating checkout...')
@@ -74,7 +72,9 @@ export default function Prices({ data, colors }: any) {
     <>
       {data && (
         <>
-          {loginPrompt && <LoginModal redirect={window.location.pathname + '#pricing'} />}
+          {loginPrompt && (
+            <LoginModal redirect={window.location.pathname + '#pricing'} />
+          )}
           {alreadyBought && <ExistingPurchase />}
 
           {data.map((price: any) => (
@@ -97,7 +97,7 @@ export default function Prices({ data, colors }: any) {
                         <p className="font-bold text-gray-700 text-md">
                           {price.heading}
                         </p>
-                        <p className="mt-1.5 mb-1.5  text-gray-900">
+                        <p className="mb-1.5 mt-1.5  text-gray-900">
                           <span className="text-4xl font-extrabold text-gray-900">
                             {Intl.NumberFormat('en-US', {
                               style: 'currency',
