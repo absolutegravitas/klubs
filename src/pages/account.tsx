@@ -27,19 +27,18 @@ export const getServerSideProps = withPageAuth({
 export default function Account() {
   const brand: any = SwrBrand()
   const [loading, setLoading] = useState(false)
-  const { isLoading, user, 
-    // purchases 
+  const { isLoading, user, purchases 
   } = useUser()
   const [gotoContent, setGotoContent] = useState(false)
 
   let showcases: any[] = []
-  // if (!isLoading && user) {
-  //   purchases?.map((purchase: any) => {
-  //     purchase.showcases?.map((showcase: any) => {
-  //       showcases.push(...showcases, showcase.id)
-  //     })
-  //   })
-  // }
+  if (!isLoading && user) {
+    purchases?.map((purchase: any) => {
+      purchase.showcases?.map((showcase: any) => {
+        showcases.push(...showcases, showcase.id)
+      })
+    })
+  }
 
   showcases = [...new Set(showcases)]
 
