@@ -27,7 +27,7 @@ export const getServerSideProps = withPageAuth({
 export default function Account() {
   const brand: any = SwrBrand()
   const [loading, setLoading] = useState(false)
-  const { isLoading, user, purchases 
+  const { isLoading, user, purchases
   } = useUser()
   const [gotoContent, setGotoContent] = useState(false)
 
@@ -55,18 +55,21 @@ export default function Account() {
     }
     setLoading(false)
   }
+  console.log(user, purchases)
+
   return (
     <>
-      {/* {purchases && (
+      {purchases && (
         <div className="px-4 mx-auto max-w-7xl font-display sm:px-6 lg:px-8">
-          <div className="max-w-3xl py-8 mx-auto text-center lg:max-w-none">
+          <div className="max-w-7xl py-8 mx-auto text-center lg:max-w-none">
             <ProseHeading content={'Your Account'} />
+            <ProseGeneral content={user?.email} />
             <ProseGeneral
               content={
-                'Access your course content here and manage your billing details via Stripe from this page. Your recurring subscriptions and securely update card details by visiting the Stripe Customer Portal. ' +
-                (showcases
-                  ? `Your purchases also give you access to our Video Showcase Library.`
-                  : '')
+                'Access your course content here and manage your billing details via Stripe from this page. Your recurring subscriptions and securely update card details by visiting the Stripe Customer Portal. '
+                // (showcases
+                //   ? `Your purchases also give you access to our Video Showcase Library.`
+                //   : '')
               }
             />
             <div className="my-4 overflow-hidden bg-white">
@@ -114,11 +117,11 @@ export default function Account() {
               </form>
             </div>
           </div>
-          
+
           <div className="bg-white">
             <div className="max-w-2xl px-4 py-16 mx-auto sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
               <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-                Your current purchases
+                {purchases?.length != 0 ? `Your current purchases`: `You have no purchases. Check out our courses and materials for instant access.`}
               </h2>
 
               <div className="grid grid-cols-1 mt-6 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
@@ -189,9 +192,9 @@ export default function Account() {
             </div>
           </div>
         </div>
-      )} */}
+      )}
 
-      {showcases && (
+      {purchases?.length != 0 && showcases && (
         <>
           <div className="bg-white font-display ">
             <div className="px-4 mx-auto max-w-7xl font-display sm:px-6 lg:px-8">

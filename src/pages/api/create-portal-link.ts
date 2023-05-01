@@ -4,7 +4,7 @@ import {
   // withAuthRequired,
   withApiAuth,
 } from '@supabase/supabase-auth-helpers/nextjs'
-// import { createOrRetrieveCustomer } from '@/lib/supabase-admin'
+import { createOrRetrieveCustomer } from '@/lib/supabase-admin'
 import { getURL } from '@/lib/api-helpers'
 import { NextApiRequest, NextApiResponse } from 'next'
 
@@ -13,12 +13,12 @@ const createPortalLink = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { user } = await getUser({ req, res })
       if (!user) throw Error('Could not get user')
-      // const customer = await createOrRetrieveCustomer({
-      //   uuid: user.id || '',
-      //   email: user.email || '',
-      // })
+      const customer = await createOrRetrieveCustomer({
+        uuid: user.id || '',
+        email: user.email || '',
+      })
 
-      // if (!customer) throw Error('Could not get customer')
+      if (!customer) throw Error('Could not get customer')
 
       // https://stripe.com/docs/api/customer_portal/sessions/create
       // create portal configuration - use to dynamically render terms/privacy URLs per org
@@ -39,11 +39,11 @@ const createPortalLink = async (req: NextApiRequest, res: NextApiResponse) => {
         default_return_url: `${req.headers.origin}/account`,
       })
 
-      // const { url } = await stripe.billingPortal.sessions.create({
-      //   customer,
-      //   configuration: configuration.id,
-      //   // return_url: `${getURL()}/account`
-      // })
+      const { url } = await stripe.billingPortal.sessions.create({
+        customer,
+        configuration: configuration.id,
+        // return_url: `${getURL()}/account`
+      })
       return res.status(200).json({})
 
       // return res.status(200).json({ url })

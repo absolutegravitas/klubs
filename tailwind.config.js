@@ -43,6 +43,5 @@ module.exports = {
     require('@tailwindcss/forms'), // cleaner forms - https://github.com/tailwindlabs/tailwindcss-forms
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/typography'), // adds prose class for niceness on std elements without effort
-    require('@tailwindcss/line-clamp'), // restricts text to # lines
   ],
 }

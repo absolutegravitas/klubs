@@ -7,6 +7,7 @@ export interface Customer {
 
 export interface UserDetails {
   id: string /* primary key */
+  stripeId?: string // stripe identifier
   first_name: string
   last_name: string
   full_name?: string

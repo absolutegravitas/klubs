@@ -57,30 +57,51 @@ const createOrRetrieveCustomer = async ({
   email: string
   uuid: string
 }) => {
-  const { data, error } = await supabaseAdmin
+  let { data, error } = await supabaseAdmin
     .from('directus_users')
-    .select('id')
+    .select('id,stripeId,first_name,last_name,email')
     .eq('id', uuid)
     .single()
-  //   if (error) {
-  //     // No customer record found in Directus, /// shouldn't need to create one!, let's create one.
-  //     const customerData: { metadata: { supabaseUUID: string }; email?: string } =
-  //       {
-  //         metadata: {
-  //           supabaseUUID: uuid,
-  //         },
-  //       }
-  //     if (email) customerData.email = email
-  //     const customer = await stripe.customers.create(customerData)
-  //     // Now insert the customer ID into our Supabase mapping table.
-  //     const { error: supabaseError } = await supabaseAdmin
-  //       .from('directus_users')
-  //       .insert([{ id: uuid, stripe_customer_id: customer.id }])
-  //     if (supabaseError) throw supabaseError
-  //     console.log(`New customer created and inserted for ${uuid}.`)
-  //     return customer.id
-  //   }
-  if (data) return data.id
+
+
+  if (data) {
+
+    if (data?.stripeId === null) {
+      let stripeCustomer: any
+
+      // check if Stripe Customer already exists and return that
+      stripeCustomer = await stripe.customers.search({
+        query: `email:"${data?.email}"`,
+        //query: `email:"absolute@gmail.com"`,
+        limit: 1,
+      })
+
+      console.log('stripeCustomer ->', stripeCustomer)
+
+      if (stripeCustomer.data.length === 0) {
+        // if Stripe Customer doesn't exist then create one and return that
+        console.log('stripeCustomer doesnt exist being created')
+        stripeCustomer = await stripe.customers.create({
+          email: data?.email,
+          metadata: { customerId: data.id },
+        })
+        console.log('stripeCustomer ->', stripeCustomer)
+        if (stripeCustomer) {
+          // Now insert the customer ID into our Supabase mapping table.
+          const { error: supabaseError } = await supabaseAdmin
+            .from('directus_users')
+            .upsert([{ id: uuid, stripeId: stripeCustomer.id }])
+          if (supabaseError) throw supabaseError
+          console.log(`New customer created and inserted for ${uuid}.`)
+          data.stripeId = stripeCustomer.id
+        }
+      }
+    }
+
+    console.log('supa customer -> ', data)
+
+    return data
+  } else return {}
 }
 
 const managePurchases = async (
@@ -90,9 +111,9 @@ const managePurchases = async (
   metadata?: any,
   mode?: any
 ) => {
-  console.log('identifier --', identifier)
-  console.log('customerId --', customerId)
-  console.log('metadata --', metadata)
+  // console.log('identifier --', identifier)
+  // console.log('customerId --', customerId)
+  // console.log('metadata --', metadata)
 
   // Get customer's UUID from mapping table.
   const { data: customerData, error: noCustomerError } = await supabaseAdmin
@@ -102,13 +123,13 @@ const managePurchases = async (
     .single()
   if (noCustomerError) throw noCustomerError
   const { id: uuid } = customerData || {}
-  console.log('customer uuid --', uuid)
+  // console.log('customer uuid --', uuid)
 
   let purchaseData: Purchase | any | undefined = undefined
 
   if (mode === 'subscription' || mode === null) {
     const subscription = await stripe.subscriptions.retrieve(identifier)
-    console.log('subscription --', subscription)
+    // console.log('subscription --', subscription)
 
     if (subscription) {
       purchaseData = {
@@ -133,13 +154,13 @@ const managePurchases = async (
 
         metadata: metadata,
       }
-      console.log('purchaseData --', purchaseData)
+      // console.log('purchaseData --', purchaseData)
     }
   }
 
   if (mode === 'payment') {
     const payment_intent = await stripe.paymentIntents.retrieve(identifier)
-    console.log('payment_intent --', payment_intent)
+    // console.log('payment_intent --', payment_intent)
 
     if (payment_intent) {
       purchaseData = {
@@ -152,7 +173,7 @@ const managePurchases = async (
         metadata: metadata,
       }
     }
-    console.log('purchaseData --', purchaseData)
+    // console.log('purchaseData --', purchaseData)
   }
 
   if (purchaseData) {
@@ -169,8 +190,8 @@ const managePurchases = async (
 }
 
 export {
-//   upsertProductRecord,
-//   upsertPriceRecord,
+  //   upsertProductRecord,
+  //   upsertPriceRecord,
   createOrRetrieveCustomer,
   managePurchases,
 }

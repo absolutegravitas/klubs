@@ -25,7 +25,7 @@ export default function Prices({ data, colors }: any) {
   // console.log('user purchases ->', purchases)
 
   const handleCheckout = async (price: Price) => {
-    console.log('selected price ->', price)
+    // console.log('selected price ->', price)
 
     if (!user) {
       console.log('User not logged in. Loading login modal...')
@@ -49,7 +49,7 @@ export default function Prices({ data, colors }: any) {
     try {
       // construct data
       const checkoutData = {
-        price: price,
+        price:  price,
         orgId: brand.name, // business id
         productId: data.product, // product id
         productSlug: window.location.pathname,
@@ -144,7 +144,7 @@ export default function Prices({ data, colors }: any) {
                               {price.attributes?.map((attribute: any) => (
                                 <>
                                   <li
-                                    key={attribute}
+                                    key={attribute.text}
                                     className="flex space-x-3"
                                   >
                                     <span
@@ -166,6 +166,7 @@ export default function Prices({ data, colors }: any) {
                       <div className="px-4 py-6 ">
                         <Button
                           style={{
+                            color:'#fff',
                             backgroundColor: brand?.accentColor
                               ? brand?.accentColor
                               : '#1D4ED8',

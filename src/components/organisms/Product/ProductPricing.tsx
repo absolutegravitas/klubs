@@ -9,7 +9,7 @@ const ProseHeading = dynamic(
 const Prices = dynamic(() => import('@/components/molecules/Price/Prices'))
 
 export default function ProductPricing({ data, colors }: any) {
-  console.log( '(received data) ', data)
+  // console.log( '(received data) ', data)
 
   return (
     <>

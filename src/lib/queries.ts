@@ -313,7 +313,7 @@ export async function getSection(params: any) {
           }
         )
       ).json()
-      console.log('stripe prices', stripePrices)
+      // console.log('stripe prices', stripePrices)
 
       let consolidatedPrices: any = []
 

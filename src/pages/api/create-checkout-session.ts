@@ -7,25 +7,34 @@ import {
 import { createOrRetrieveCustomer } from '@/lib/supabase-admin'
 import { getURL } from '@/lib/api-helpers'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { exit } from 'node:process'
 
 const createCheckoutSession = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
   if (req.method === 'POST') {
-    // console.log('req->', req.body)
+    console.log('req->', req.body)
     const { price, quantity = 1, productSlug } = req.body
 
     try {
       const { user } = await getUser({ req, res }) //getUser from Supabase
-      const customer = await createOrRetrieveCustomer({ // getcustomer details from Directus
+      // console.log('user Cookie: ',user)
+
+      
+      const customer:any = await createOrRetrieveCustomer({ // getcustomer details from Directus
         uuid: user?.id || '',
         email: user?.email || '',
       })
 
+      // console.log ('customer: ',customer)
+
+
       const session = await stripe.checkout.sessions.create({
-        customer,
-        line_items: [{ price: price.id, quantity }],
+        customer:customer.stripeId,
+//        line_items:[{price:price.id,quantity}],
+        line_items: [{ price: 'price_1KNAfpDKsmbgxZV2Pivll6iH', // 100HKD TEST PRICE //price.id
+        quantity }],
         mode: price.type === 'one_time' ? 'payment' : 'subscription', // "payment" or "subscription",,
         allow_promotion_codes: true,
         // payment_method_types: ["card"], // no longer required and managed automagically by Stripe https://stripe.com/docs/payments/dashboard-payment-methods#section-opt
