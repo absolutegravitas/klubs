@@ -13,7 +13,7 @@ const createPortalLink = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { user } = await getUser({ req, res })
       if (!user) throw Error('Could not get user')
-      const customer = await createOrRetrieveCustomer({
+      const customer:any = await createOrRetrieveCustomer({
         uuid: user.id || '',
         email: user.email || '',
       })
@@ -40,7 +40,7 @@ const createPortalLink = async (req: NextApiRequest, res: NextApiResponse) => {
       })
 
       const { url } = await stripe.billingPortal.sessions.create({
-        customer,
+        customer:customer.stripeId,
         configuration: configuration.id,
         // return_url: `${getURL()}/account`
       })
