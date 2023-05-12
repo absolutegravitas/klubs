@@ -32,9 +32,9 @@ const createCheckoutSession = async (
 
       const session = await stripe.checkout.sessions.create({
         customer:customer.stripeId,
-//        line_items:[{price:price.id,quantity}],
-        line_items: [{ price: 'price_1KNAfpDKsmbgxZV2Pivll6iH', // 100HKD TEST PRICE //price.id
-        quantity }],
+       line_items:[{price:price.id,quantity}],
+        // line_items: [{ price: 'price_1KNAfpDKsmbgxZV2Pivll6iH', // 100HKD TEST PRICE //price.id
+        // quantity }],
         mode: price.type === 'one_time' ? 'payment' : 'subscription', // "payment" or "subscription",,
         allow_promotion_codes: true,
         // payment_method_types: ["card"], // no longer required and managed automagically by Stripe https://stripe.com/docs/payments/dashboard-payment-methods#section-opt
