@@ -186,7 +186,7 @@ const upsertPurchases = async (
 
   if (purchaseData) {
     const { error } = await supabaseAdmin
-      .from('purchases')
+      .from('Purchases')
       .upsert([purchaseData])
     if (error) throw error
     console.log(
