@@ -38,11 +38,11 @@ export const MyUserContextProvider = (props: Props) => {
 
   // get purchases from supabase
   const getPurchases = () =>
-    supabase.from('Purchases').select('*').eq('user_id', user?.id).in('status', [
-      'succeeded',
-      'active',
-      //, 'unpaid', 'canceled', 'past_due'
-    ])
+    supabase
+      .from('Purchases')
+      .select('*')
+      .eq('user_id', user?.id)
+      .in('status', ['active'])
 
   useEffect(() => {
     if (user && !isLoadingData && !userDetails) {

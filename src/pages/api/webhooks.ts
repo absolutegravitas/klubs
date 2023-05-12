@@ -2,12 +2,13 @@ import { stripe } from '@/lib/stripe'
 import { NextApiRequest, NextApiResponse } from 'next'
 import Stripe from 'stripe'
 import { Readable } from 'node:stream'
+import { createOrRetrieveCustomer } from '@/lib/supabase-admin'
 
-// import {
-//   upsertProductRecord,
-//   upsertPriceRecord,
-//   managePurchases,
-// } from '@/lib/supabase-admin'
+import {
+  // upsertProductRecord,
+  // upsertPriceRecord,
+  upsertPurchases,
+} from '@/lib/supabase-admin'
 
 // Stripe requires the raw body to construct the event.
 export const config = {
@@ -23,7 +24,6 @@ async function buffer(readable: Readable) {
   }
   return Buffer.concat(chunks)
 }
-
 
 const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST' || req.method === 'PATCH') {
@@ -46,111 +46,119 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
       // directus api - https://docs.directus.io/reference/items.html
-      let product: Stripe.Product
-      let price: Stripe.Price
+      // let product: Stripe.Product
+      // let price: Stripe.Price
       let session: Stripe.Checkout.Session
-      let subscription: Stripe.Subscription
-      let results: any
+      // let subscription: Stripe.Subscription
+      // let results: any
 
       if (event.type === 'checkout.session.completed') {
         session = event.data.object as Stripe.Checkout.Session
+        // console.log ('customer: ',customer)
+        // upsert purchase from data
 
-        // get customer from data
+        await upsertPurchases(
+          session.mode as string,
 
-        // create purchase from data
-        
-        // get order from client_reference_id
-        const orderId: any = session.client_reference_id
-        const customerId: any = session.customer // id of the customer
+          session.mode === 'subscription'
+            ? (session.subscription as string)
+            : session.payment_intent, // sub or intent id
+          session.customer as string, // customerid
+          session.metadata,
+          session
+        )
 
-        // create the order
-        console.log('creating Purchase...')
-        let order: any = await (
-          await fetch(
-            `${process.env.NEXT_PUBLIC_REST_API}/orders?fields=*,items.*&filter[id][_eq]=${orderId}`,
-            {
-              method: 'GET',
-              headers: {
-                Authorization: `Bearer ${process.env.DIRECTUS}`,
-                'Content-Type': 'application/json',
-              },
-              credentials: 'same-origin',
-            }
-          )
-        ).json()
-        order.data?.length > 0 ? (order = order.data[0]) : order
+        // // get order from client_reference_id
+        // const orderId: any = session.client_reference_id
+        // const customerId: any = session.customer // id of the customer
 
-        if (order && order != undefined && Object.keys(order).length > 0) {
-          console.log('update stock...')
-          fetch(
-            `${process.env.NEXT_PUBLIC_REST_API}/api/updateStockQty?items=${order.cart.items}`
-          )
+        // // create the order
+        // console.log('creating Purchase...')
+        // let order: any = await (
+        //   await fetch(
+        //     `${process.env.NEXT_PUBLIC_REST_API}/orders?fields=*,items.*&filter[id][_eq]=${orderId}`,
+        //     {
+        //       method: 'GET',
+        //       headers: {
+        //         Authorization: `Bearer ${process.env.DIRECTUS}`,
+        //         'Content-Type': 'application/json',
+        //       },
+        //       credentials: 'same-origin',
+        //     }
+        //   )
+        // ).json()
+        // order.data?.length > 0 ? (order = order.data[0]) : order
 
-          console.log('update voucher...')
-          if (Object.keys(order.cart.options.voucher).length != 0) {
-            fetch(
-              `${process.env.NEXT_PUBLIC_REST_API}/api/updateVoucher?cart=${order.cart}`
-            )
-          }
+        // if (order && order != undefined && Object.keys(order).length > 0) {
+        //   console.log('update stock...')
+        //   fetch(
+        //     `${process.env.NEXT_PUBLIC_REST_API}/api/updateStockQty?items=${order.cart.items}`
+        //   )
 
-          // update order email & customer associated
-          console.log('upsert order...')
+        //   console.log('update voucher...')
+        //   if (Object.keys(order.cart.options.voucher).length != 0) {
+        //     fetch(
+        //       `${process.env.NEXT_PUBLIC_REST_API}/api/updateVoucher?cart=${order.cart}`
+        //     )
+        //   }
 
-          order = await fetch(
-            `${process.env.NEXT_PUBLIC_REST_API}/orders/${orderId}`,
-            {
-              method: 'PATCH',
-              headers: {
-                Authorization: `Bearer ${process.env.DIRECTUS}`,
-                'Content-Type': 'application/json',
-              },
-              credentials: 'same-origin',
-              body: JSON.stringify({ status: 'placed' }),
-            }
-          )
+        //   // update order email & customer associated
+        //   console.log('upsert order...')
 
+        //   order = await fetch(
+        //     `${process.env.NEXT_PUBLIC_REST_API}/orders/${orderId}`,
+        //     {
+        //       method: 'PATCH',
+        //       headers: {
+        //         Authorization: `Bearer ${process.env.DIRECTUS}`,
+        //         'Content-Type': 'application/json',
+        //       },
+        //       credentials: 'same-origin',
+        //       body: JSON.stringify({ status: 'placed' }),
+        //     }
+        //   )
 
-        } else {
-          // empty order
-        }
+        // } else {
+        //   // empty order
+        // }
       }
 
-      switch (event.type) {
-        case 'product.created':
-        case 'product.updated':
-          // await upsertProductRecord(event.data.object as Stripe.Product)
-          break
-        case 'price.created':
-        case 'price.updated':
-          // await upsertPriceRecord(event.data.object as Stripe.Price)
-          break
-        case 'customer.subscription.created':
-        case 'customer.subscription.updated':
-        case 'customer.subscription.deleted':
-          const subscription = event.data.object as Stripe.Subscription
-          // await managePurchases(
-          //   // event.data.object
-          //   subscription.id,
-          //   subscription.customer as string,
-          // )
-          break
-        case 'checkout.session.completed':
-          const checkoutSession = event.data.object as Stripe.Checkout.Session
+      // switch (event.type) {
+      //   case 'product.created':
+      //   case 'product.updated':
+      //     // await upsertProductRecord(event.data.object as Stripe.Product)
+      //     break
+      //   case 'price.created':
+      //   case 'price.updated':
+      //     // await upsertPriceRecord(event.data.object as Stripe.Price)
+      //     break
+      //   case 'customer.subscription.created':
+      //   case 'customer.subscription.updated':
+      //   case 'customer.subscription.deleted':
+      //     const subscription = event.data.object as Stripe.Subscription
+      //     // await managePurchases(
+      //     //   // event.data.object
+      //     //   subscription.id,
+      //     //   subscription.customer as string,
+      //     // )
+      //     break
+      //   case 'checkout.session.completed':
+      //     const checkoutSession = event.data.object as Stripe.Checkout.Session
 
-          // await managePurchases(
-          //   // event.data.object as Stripe.Checkout.Session,
-          //   checkoutSession.mode === 'subscription'
-          //     ? (checkoutSession.subscription as string)
-          //     : checkoutSession.payment_intent,
-          //   checkoutSession.customer as string,
-          //   checkoutSession.metadata,
-          //   checkoutSession.mode as string
-          // )
+      //     // await managePurchases(
+      //     //   // event.data.object as Stripe.Checkout.Session,
+      //     //   checkoutSession.mode === 'subscription'
+      //     //     ? (checkoutSession.subscription as string)
+      //     //     : checkoutSession.payment_intent,
+      //     //   checkoutSession.customer as string,
+      //     //   checkoutSession.metadata,
+      //     //   checkoutSession.mode as string
+      //     // )
 
-          break
-        default:
-          throw new Error('Unhandled relevant event!')
-      }
+      //     break
+      //   default:
+      //     throw new Error('Unhandled relevant event!')
+      // }
     } catch (error) {
       console.log(error)
       return res

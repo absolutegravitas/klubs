@@ -12,7 +12,7 @@ import { fetchPostJSON, postData } from '@/lib/api-helpers'
 import { useRouter } from 'next/router'
 
 export default function Prices({ data, colors }: any) {
-  // console.log('price data: ', data)
+  console.log('price data: ', data)
   const router = useRouter()
 
   const brand: any = SwrBrand()

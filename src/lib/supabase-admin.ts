@@ -63,9 +63,7 @@ const createOrRetrieveCustomer = async ({
     .eq('id', uuid)
     .single()
 
-
   if (data) {
-
     if (data?.stripeId === null) {
       let stripeCustomer: any
 
@@ -104,76 +102,86 @@ const createOrRetrieveCustomer = async ({
   } else return {}
 }
 
-const managePurchases = async (
-  // data:any
-  identifier: any,
+const upsertPurchases = async (
+  mode: any, // subscription or payment_intent
+  identifier: any, // identifier for the subscription (or payment intent if one-off buy)
   customerId: any,
   metadata?: any,
-  mode?: any
+  sessionObject?: any // full object
 ) => {
-  // console.log('identifier --', identifier)
-  // console.log('customerId --', customerId)
-  // console.log('metadata --', metadata)
+  let purchaseData: any
 
-  // Get customer's UUID from mapping table.
-  const { data: customerData, error: noCustomerError } = await supabaseAdmin
-    .from('directus_users')
-    .select('id')
-    .eq('uuid', customerId)
-    .single()
-  if (noCustomerError) throw noCustomerError
-  const { id: uuid } = customerData || {}
-  // console.log('customer uuid --', uuid)
+  // create purchase record for customer
+  // shouldn't need to check if already bought here -- just insert record
 
-  let purchaseData: Purchase | any | undefined = undefined
-
-  if (mode === 'subscription' || mode === null) {
+  // get details from Stripe Session Object & construct Purchase Record
+  if (mode === 'subscription') {
+    // get subscription details
     const subscription = await stripe.subscriptions.retrieve(identifier)
-    // console.log('subscription --', subscription)
 
+    // construct Purchase Record
     if (subscription) {
       purchaseData = {
         id: subscription.id,
+        customerId: customerId,
         status: subscription.status,
-        user_id: uuid,
         mode: 'subscription',
-        // price_id: subscription ? subscription.items.data[0].price.id:,
-        cancel_at_period_end: subscription.cancel_at_period_end,
-        cancel_at: subscription.cancel_at
-          ? toDateTime(subscription.cancel_at)
-          : null,
-        canceled_at: subscription.canceled_at
-          ? toDateTime(subscription.canceled_at)
-          : null,
+
+        productId: metadata.productId,
+        productSlug: metadata.productSlug,
+        priceId: subscription.items.data[0].plan.id,
+        amount: subscription.items.data[0]?.plan?.amount,
+        currency: subscription.currency,
+        interval: subscription.items.data[0]?.plan?.interval,
+        frequency: subscription.items.data[0]?.plan?.interval_count,
+
+        created: toDateTime(subscription.created),
         current_period_start: toDateTime(subscription.current_period_start),
         current_period_end: toDateTime(subscription.current_period_end),
-        created: toDateTime(subscription.created),
+
         ended_at: subscription.ended_at
           ? toDateTime(subscription.ended_at)
           : null,
+        cancel_at: subscription.cancel_at
+          ? toDateTime(subscription.cancel_at)
+          : null,
+
+        canceled_at: subscription.canceled_at
+          ? toDateTime(subscription.canceled_at)
+          : null,
+        cancel_at_period_end: subscription.cancel_at_period_end,
 
         metadata: metadata,
       }
-      // console.log('purchaseData --', purchaseData)
+      console.log('purchaseData --', purchaseData)
     }
+
+    // upsert in supabase - Purchases Table
   }
 
   if (mode === 'payment') {
+    // get one-off payment details
     const payment_intent = await stripe.paymentIntents.retrieve(identifier)
-    // console.log('payment_intent --', payment_intent)
 
+    // construct Purchase Record
     if (payment_intent) {
       purchaseData = {
         id: payment_intent.id,
+        customerId: customerId,
         status: payment_intent.status,
-        user_id: uuid,
         mode: 'payment_intent',
-        // price_id: subscription ? subscription.items.data[0].price.id:,
+
+        productId: metadata.productId,
+        productSlug: metadata.productSlug,
+        amount: payment_intent.amount,
+        currency: payment_intent.currency,
 
         metadata: metadata,
       }
+      console.log('purchaseData --', purchaseData)
     }
-    // console.log('purchaseData --', purchaseData)
+
+    // upsert in supabase - Purchases Table
   }
 
   if (purchaseData) {
@@ -184,14 +192,36 @@ const managePurchases = async (
     console.log(
       `Inserted/updated purchase [${
         purchaseData ? purchaseData.id : null
-      }] for user [${uuid}]`
+      }] for user [${customerId}]`
     )
   }
+
+  // see if existing purchase for customer & product (and for subs, not end-dated)
+  // const { data: customerPurchases, error: purchaseError } = await supabaseAdmin
+  //   .from('Purchases')
+  //   .select('id,status,mode,productId,stripeId,first_name,last_name,email,live')
+  //   .eq('id', customerId.id, 'productId',)
+  //   //.single()
+
+  // // no purchases
+  // if (customerPurchases?.length === 0) {
+
+  // } else {
+  //   // find if
+  // }
+
+  // // some other error
+  // if (purchaseError) throw purchaseError
+
+  // const { id: uuid } = customerData || {}
+  // console.log('customer uuid --', uuid)
+
+  // if no purchases, create new one using data supplied
 }
 
 export {
   //   upsertProductRecord,
   //   upsertPriceRecord,
   createOrRetrieveCustomer,
-  managePurchases,
+  upsertPurchases,
 }
